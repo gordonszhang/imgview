@@ -20,5 +20,5 @@ $(EXEC): $(OBJS)
 	$(CC) $(CFLAGS) -o $@ $(OBJS) $(LDFLAGS)
 
 clean:
-	rm -i $(OBJS)
-	rm -i $(EXEC)
+	rm -rf $(OBJS)
+	rm -rf $(EXEC)

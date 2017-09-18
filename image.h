@@ -1,3 +1,11 @@
+/* Gordon Zhang
+ * CPSC 6040
+ * 09.18.2017
+ * image.h
+ * Image class header. Class contains descriptive information, 
+ * separated RGB channel pixmaps, as well as an RGBA pixmap
+ */
+
 #ifndef IMAGE_H
 #define IMAGE_H
 
@@ -7,9 +15,8 @@ class Image {
         Image(int, int, int, unsigned char*);
         ~Image();
         void split_channels();
-        unsigned char* get_pixmap();
-        int get_channel();
         void set_channel(int);
+        unsigned char* get_pixmap();
         int get_width();
         int get_height();
     private:

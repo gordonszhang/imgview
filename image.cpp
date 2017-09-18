@@ -1,13 +1,21 @@
+/* Gordon Zhang
+ * CPSC 6040
+ * 09.18.2017
+ * image.cpp
+ * Image class implementation
+ */
+
 #include <GL/freeglut.h>
 #include <OpenImageIO/imageio.h>
 #include "image.h"
 #include "structs.h"
 
-Image::Image(int w, int h, int channels, unsigned char* pixmap) {
+// Image constructor. Takes a pixmap and the number of channels,
+// converts it to RGBA encoding and stores a pointer in the object
+Image::Image(int w, int h, int channels, unsigned char* pixmap) : width(w), height(h), displayed_channel(ALL) {
     width = w;
     height = h;
-    if(channels == 1) {
-        // Grayscale
+    if(channels == 1) { // Grayscale
         pixels = new unsigned char[width * height * 4];
         grayscale_pixel* grayscale_pixmap = (grayscale_pixel*)(pixmap);
         rgba_pixel* rgba_pixmap = (rgba_pixel*)(pixels);
@@ -23,8 +31,7 @@ Image::Image(int w, int h, int channels, unsigned char* pixmap) {
         }
     }
 
-    else if(channels == 3) {
-        // RGB
+    else if(channels == 3) { // RGB
         pixels = new unsigned char[width * height * 4];
         rgb_pixel* rgb_pixmap = (rgb_pixel*)(pixmap);
         rgba_pixel* rgba_pixmap = (rgba_pixel*)(pixels);
@@ -40,10 +47,11 @@ Image::Image(int w, int h, int channels, unsigned char* pixmap) {
         }
     }
 
-    else if(channels == 4) {
-        pixels = pixmap;
+    else if(channels == 4) { // RGBA
+        pixels = pixmap; // No conversion necessary
     }
 
+    // Store each channel separately in its own "grayscale" (one color) pixmap
     pixels_r = new rgba_pixel[width * height];
     pixels_g = new rgba_pixel[width * height];
     pixels_b = new rgba_pixel[width * height];
@@ -67,9 +75,9 @@ Image::Image(int w, int h, int channels, unsigned char* pixmap) {
             pixels_b[index].a = rgba_pixmap[index].a;
         }
     } 
-    displayed_channel = ALL;
 }
 
+// Image class destructor
 Image::~Image() {
     delete pixels;
     delete pixels_r;
@@ -77,36 +85,35 @@ Image::~Image() {
     delete pixels_b;
 }
 
+// Getter for currently selected pixmap. Returns a pointer to an
+// array of unsigned char
 unsigned char* Image::get_pixmap() {
-    if (displayed_channel == ALL) {
+    if (displayed_channel == ALL) { // All channels
         return pixels;
     }
-    if (displayed_channel == R) {
+    if (displayed_channel == R) { // Red only
         return (unsigned char*)pixels_r;
     }
-    if (displayed_channel == G) {
+    if (displayed_channel == G) { // Green only
         return (unsigned char*)pixels_g;
     }
-    if (displayed_channel = B) {
+    if (displayed_channel = B) { // Blue only
         return (unsigned char*)pixels_b;
     }
 }
 
-int Image::get_channel() {
-    if (displayed_channel == ALL) return GL_RGBA;
-    if (displayed_channel == R) return GL_RED;
-    if (displayed_channel == G) return GL_GREEN;
-    if (displayed_channel == B) return GL_BLUE;
-}
-
+// Setter for currently displayed_channel. See constant
+// declaration in structs.h
 void Image::set_channel(int dc) {
     displayed_channel = dc;
 }
 
+// Getter for image width. Returns an int.
 int Image::get_width() {
     return width;
 }
 
+// Getter for image height. Returns an int
 int Image::get_height() {
     return height;
 }
