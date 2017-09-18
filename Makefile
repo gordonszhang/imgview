@@ -22,3 +22,6 @@ $(EXEC): $(OBJS)
 clean:
 	rm -rf $(OBJS)
 	rm -rf $(EXEC)
+
+compress:
+	zip gordonz.zip *.cpp *.h Makefile README

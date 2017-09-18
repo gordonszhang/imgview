@@ -1,0 +1,35 @@
+Gordon Zhang (gordonz)
+gordonz@clemson.edu
+
+CPSC 6040
+HW 1 (imgview)
+
+Description:
+imgview is a command line image viewing utility. This project offers a few features:
+
+If no command line arguments are passed to imgview, the program will open a black window.
+Providing a filename as an argument will make imgview open that file on startup.
+When the window is open, the user can input the following commands:
+
+    r: read an image into the program to be displayed. Prompts user for a filename
+    w: write the currently displayed image to a file. Prompts user for a filename
+    1: display only the red channel
+    2: display only the green channel
+    3: display only the blue channel
+    o: display all channels
+    q or ESC: quit
+
+The image will be displayed at the center of the window, and scale appropriately if the
+window size is less than the image size.
+
+Usage:
+    // No command line arguments, goes straight to interactive mode
+    ./imgview
+
+    // Command line argument, provide filename of image to be opened
+    ./imgview <IMAGE.PNG>
+
+Some extra notes:
+    All images are converted to RGBA color space upon being read into imgview.
+    When writing to file, the currently selected channel(s) will be saved to file. 
+    The size of the window does not affect the image when it is saved to file.
